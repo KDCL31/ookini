@@ -1,0 +1,92 @@
+body{
+    background-color: #ffe6a7;
+    font-family: 'Archivo Black', 'sans-serif';
+    font-style: italic;
+    font-weight: 400;
+}
+h1 {
+    color: #0a0908;
+    font-size: 5rem;
+    font-weight: 800;
+}
+h2 {
+    color: #6f1d1b;
+    font-size: 1.7rem;
+    font-style: oblique;
+    font-optical-sizing: auto;
+    font-weight: 100;
+    letter-spacing: 0.01cm;
+    text-transform: capitalize;
+    margin-bottom: 0.25rem;
+}
+.metodo-titulo {
+    color: #414833;
+    letter-spacing: 0.01cm;
+    text-transform: lowercase;
+    margin-bottom: 0.25rem;
+    font-size: 1.1rem;
+}
+.metodo-titulo::first-letter{
+    text-transform: uppercase;
+}
+header {
+    padding: 0rem 2rem;
+    border-bottom: 1px #d00000;
+}
+p {
+    color: #7f4f24;
+    font-family: 'Rouge Script, cursive';
+    font-size: 0.5cm;
+    text-align: justify;
+}
+nav a {
+    color: #390099;
+    font-size: normal;
+    font-weight: 150;
+    font-family: "REM, cursive";
+    font-optical-sizing: auto;
+}
+main {
+    padding: 1rem 1rem;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+.precio {
+    font-weight: bold;
+    color: #d00000;
+    font-size: medium;
+}
+.elemento {
+    padding: 1rem 25rem;
+    border-top: 3px solid;
+    display: flex;
+}
+.frase {
+   color: #4f772d;
+   font-weight: bold, italic;
+   font-size: 1.5rem;
+   padding: 0rem 10rem;
+   margin-top: 0px;
+   text-align: center;
+   white-space: nowrap;
+}
+#contador-Tazas {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #ff0054;
+}
+#boton-reservar {
+    display: block;
+    margin-top: 1rem;
+    padding: 0.5rem 1.25rem;
+    background-color: #80ed99;
+    color: #f72585;
+    border: none;
+    font-family: 'Rouge Script', 'cursive';
+    font-style: italic;
+    font-size: 1.3rem;
+    cursor: pointer;
+}
+.promo {
+    color: #650000;
+}

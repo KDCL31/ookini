@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ookimi - Café del barrio</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Playfair+Display:ital,wght@1,400;1,600;1,700&family=Cinzel:wght@500;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome for Rustic Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        earth: {
+                            800: '#2C1A1D', // Deep Espresso Brown
+                            700: '#3D2314', // Dark Coffee
+                            600: '#5C3A21', // Warm Roasted Bean
+                            500: '#8C5A32', // Terracotta Brown
+                            400: '#B8824A', // Warm Amber
+                            300: '#D4A373', // Rustic Sand
+                            200: '#E9D8A6', // Soft Parchment
+                            100: '#FAEDCD', // Cream Cream
+                            50: '#FEFAE0'   // Off-white Warm
+                        }
+                    },
+                    fontFamily: {
+                        'cursive': ['Caveat', 'Playfair Display', 'Papyrus', 'Georgia', 'serif'],
+                        'serif-italic': ['Playfair Display', 'Georgia', 'serif'],
+                        'heading': ['Papyrus', 'Cinzel', 'Georgia', 'serif']
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            font-family: 'Caveat', 'Playfair Display', 'Papyrus', Georgia, cursive, serif;
+            font-style: italic;
+            background-color: #3D2314;
+            color: #FAEDCD;
+            background-image: radial-gradient(#5C3A21 0.75px, transparent 0.75px), radial-gradient(#5C3A21 0.75px, #3D2314 0.75px);
+            background-size: 30px 30px;
+            background-position: 0 0, 15px 15px;
+        }
+
+        .heading-papyrus {
+            font-family: 'Papyrus', 'Cinzel', cursive, serif;
+            font-style: italic;
+            letter-spacing: 0.05em;
+        }
+
+        .rustic-border {
+            border: 2px solid #8C5A32;
+            box-shadow: 4px 6px 12px rgba(0, 0, 0, 0.4);
+        }
+
+        .wood-texture {
+            background-color: #2C1A1D;
+            background-image: linear-gradient(135deg, #3d2314 25%, transparent 25%), linear-gradient(225deg, #3d2314 25%, transparent 25%), linear-gradient(45deg, #3d2314 25%, transparent 25%), linear-gradient(315deg, #3d2314 25%, #2C1A1D 25%);
+            background-position: 10px 0, 10px 0, 0 0, 0 0;
+            background-size: 20px 20px;
+            background-repeat: repeat;
+        }
+
+        .card-rustic {
+            background-color: rgba(44, 26, 29, 0.9);
+            border: 1px solid #8C5A32;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card-rustic:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+        }
+
+        /* Hide scrollbar for smooth clean horizontal sliders if needed */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between selection:bg-earth-500 selection:text-earth-50">
+
+    <header class="sticky top-0 z-50 bg-earth-800/95 backdrop-blur-sm border-b border-earth-500/40 shadow-xl">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <!-- Logo -->
+            <a href="#" class="flex items-center gap-3 group">
+                <div class="w-12 h-12 rounded-full border-2 border-earth-400 flex items-center justify-center bg-earth-700 text-earth-300 text-2xl group-hover:scale-105 transition-transform">
+                    <i class="fa-solid font-bold fa-mug-hot"></i>
+                </div>
+                <div>
+                    <span class="heading-papyrus text-3xl font-bold text-earth-200 tracking-wider block">Ookimi</span>
+                    <span class="text-xs text-earth-400 block -mt-1 italic">Café Artesanal & Prensa Francesa</span>
+                </div>
+            </a>
+
+            <!-- Desktop Nav Links -->
+            <nav class="hidden md:flex items-center gap-8 text-xl font-medium">
+                <a href="#inicio" class="text-earth-100 hover:text-earth-300 transition-colors italic">Inicio</a>
+                <a href="#historia" class="text-earth-100 hover:text-earth-300 transition-colors italic">Nuestra Historia</a>
+                <a href="#metodos" class="text-earth-100 hover:text-earth-300 transition-colors italic">Métodos</a>
+                <a href="#menu" class="text-earth-100 hover:text-earth-300 transition-colors italic">Menú</a>
+                <a href="#reservas" class="px-5 py-2 rounded-lg bg-earth-500 hover:bg-earth-600 text-earth-50 font-semibold shadow-md transition-all hover:scale-105 italic border border-earth-400">
+                    Reservar Mesa
+                </a>
+            </nav>
+
+            <!-- Mobile Menu Button -->
+            <button id="mobile-menu-btn" class="md:hidden text-earth-200 text-2xl p-2 focus:outline-none" aria-label="Abrir Menú">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+        </div>
+
+        <!-- Mobile Menu Dropdown -->
+        <div id="mobile-menu" class="hidden md:hidden bg-earth-800 border-b border-earth-500/50 px-6 py-6 flex flex-col gap-4 text-xl">
+            <a href="#inicio" class="mobile-link text-earth-100 hover:text-earth-300 italic">Inicio</a>
+            <a href="#historia" class="mobile-link text-earth-100 hover:text-earth-300 italic">Nuestra Historia</a>
+            <a href="#metodos" class="mobile-link text-earth-100 hover:text-earth-300 italic">Métodos de Café</a>
+            <a href="#menu" class="mobile-link text-earth-100 hover:text-earth-300 italic">Menú y Precios</a>
+            <a href="#reservas" class="mobile-link text-center px-4 py-2 rounded-lg bg-earth-500 text-earth-50 italic font-semibold border border-earth-400">Reservar Mesa</a>
+        </div>
+    </header>
+
+    <main class="flex-grow">
+        <section id="inicio" class="relative min-h-[85vh] flex items-center justify-center py-20 px-4 wood-texture overflow-hidden">
+            <div class="absolute inset-0 bg-black/50 z-0"></div>
+            <div class="relative z-10 max-w-4xl mx-auto text-center space-y-6">
+                <div class="inline-block border-y-2 border-earth-400 px-6 py-2 mb-2">
+                    <span class="text-earth-300 text-lg md:text-2xl italic tracking-widest uppercase">Especialistas en Prensa Francesa</span>
+                </div>
+                <h1 class="heading-papyrus text-5xl md:text-7xl font-bold text-earth-100 leading-tight drop-shadow-md">
+                    El Verdadero Sabor del Café Artesanal
+                </h1>
+                <p class="text-2xl md:text-3xl text-earth-200 max-w-2xl mx-auto font-light italic leading-relaxed">
+                    Granos frescos seleccionados, tostados a la perfección y extraídos con devoción en un ambiente rústico y acogedor.
+                </p>
+                <div class="pt-6 flex flex-col sm:flex-row gap-4 justify-center items-center">
+                    <a href="#menu" class="w-full sm:w-auto px-8 py-4 rounded-xl bg-earth-500 hover:bg-earth-600 text-earth-50 text-2xl font-bold italic shadow-lg transition-all hover:-translate-y-1 border border-earth-400 flex items-center justify-center gap-3">
+                        <i class="fa-solid fa-book-open text-xl"></i> Ver Menú Completo
+                    </a>
+                    <a href="#reservas" class="w-full sm:w-auto px-8 py-4 rounded-xl bg-transparent hover:bg-earth-700 text-earth-200 text-2xl font-bold italic shadow-lg transition-all hover:-translate-y-1 border-2 border-earth-400 flex items-center justify-center gap-3">
+                        <i class="fa-solid fa-calendar-check text-xl"></i> Hacer una Reserva
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <section id="historia" class="py-20 px-4 bg-earth-800/80 border-y border-earth-600/30">
+            <div class="max-w-6xl mx-auto grid md:grid-cols-2 gap-12 items-center">
+                <div class="space-y-6">
+                    <div class="flex items-center gap-3 text-earth-400 text-xl italic">
+                        <i class="fa-solid fa-seedling text-2xl"></i>
+                        <span>Tradición & Pasión</span>
+                    </div>
+                    <h2 class="heading-papyrus text-4xl md:text-5xl font-bold text-earth-100">
+                        La Historia de Ookimi
+                    </h2>
+                    <p class="text-xl text-earth-200 leading-relaxed italic">
+                        En <strong class="text-earth-300 font-semibold">Ookimi</strong>, creemos que el café no es solo una bebida, sino un ritual diario que conecta la tierra, las manos artesanales y la pausa pacífica en tu día.
+                    </p>
+                    <p class="text-xl text-earth-200 leading-relaxed italic">
+                        Nacimos de la búsqueda por rescatar el método tradicional de extracción, priorizando la <strong class="text-earth-300">prensa francesa</strong> y los orígenes únicos. Cada grano es molienda fresca al instante, garantizando aromas profundos, cuerpo sedoso y un perfil de sabor inigualable.
+                    </p>
+                    <div class="pt-4 grid grid-cols-2 gap-4 text-center">
+                        <div class="p-4 rounded-lg card-rustic">
+                            <span class="block text-3xl font-bold text-earth-300">100%</span>
+                            <span class="text-lg text-earth-200 italic">Café de Origen Artesanal</span>
+                        </div>
+                        <div class="p-4 rounded-lg card-rustic">
+                            <span class="block text-3xl font-bold text-earth-300">Fresco</span>
+                            <span class="text-lg text-earth-200 italic">Molienda al Momento</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Rustic Visual Illustration / Cards -->
+                <div class="relative flex justify-center">
+                    <div class="w-full max-w-md p-6 rounded-2xl bg-earth-700 rustic-border relative z-10 text-center space-y-4">
+                        <div class="w-20 h-20 mx-auto rounded-full bg-earth-600 border-2 border-earth-300 flex items-center justify-center text-earth-200 text-3xl">
+                            <i class="fa-solid fa-filter text-4xl"></i>
+                        </div>
+                        <h3 class="heading-papyrus text-3xl font-bold text-earth-100">El Arte de la Extracción</h3>
+                        <p class="text-lg text-earth-200 italic">
+                            "El tiempo de infusión exacto, la temperatura perfecta del agua y la presión pausada crean una taza suave pero con un cuerpo inconfundible."
+                        </p>
+                        <div class="pt-2 text-earth-400 text-sm font-semibold tracking-wider uppercase italic">— Maestro Barista Ookimi</div>
+                    </div>
+                    <!-- Decorative back shadow -->
+                    <div class="absolute -inset-2 rounded-2xl bg-earth-500/20 blur-lg transform rotate-2"></div>
+                </div>
+            </div>
+        </section>
+
+        <section id="metodos" class="py-20 px-4 max-w-7xl mx-auto">
+            <div class="text-center max-w-3xl mx-auto mb-16 space-y-4">
+                <span class="text-earth-400 text-xl italic uppercase tracking-wider">Aprende del Café</span>
+                <h2 class="heading-papyrus text-4xl md:text-5xl font-bold text-earth-100">Nuestros Métodos Artesanales</h2>
+                <p class="text-xl text-earth-200 italic">
+                    Descubre cómo preparamos tu taza. Cada método resalta diferentes notas aromáticas y texturas.
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-8">
+                <!-- Method 1: Prensa Francesa -->
+                <div class="card-rustic rounded-2xl p-8 flex flex-col justify-between relative overflow-hidden border-2 border-earth-400">
+                    <div class="absolute top-0 right-0 bg-earth-500 text-earth-50 px-4 py-1 text-sm rounded-bl-lg font-bold italic">
+                        Especialidad de la Casa
+                    </div>
+                    <div class="space-y-4">
+                        <div class="w-16 h-16 rounded-xl bg-earth-600/50 flex items-center justify-center text-earth-300 text-3xl">
+                            <i class="fa-solid fa-[#5C3A21] fa-glass-water font-bold"></i>
+                            <i class="fa-solid fa-wine-glass-empty text-earth-300 text-3xl"></i>
+                        </div>
+                        <h3 class="heading-papyrus text-3xl font-bold text-earth-100">Prensa Francesa</h3>
+                        <p class="text-lg text-earth-200 italic leading-relaxed">
+                            Infusión por inmersión completa. Los aceites naturales y finos sedimentos del café se conservan, entregando un cuerpo denso, aromático y rico en matices.
+                        </p>
+                    </div>
+                    <div class="mt-6 pt-4 border-t border-earth-600/50 flex justify-between items-center text-earth-300 text-lg italic">
+                        <span>Perfil: Rizo, Complejo</span>
+                        <span>4-5 min</span>
+                    </div>
+                </div>
+
+                <!-- Method 2: V60 / Goteo -->
+                <div class="card-rustic rounded-2xl p-8 flex flex-col justify-between">
+                    <div class="space-y-4">
+                        <div class="w-16 h-16 rounded-xl bg-earth-600/50 flex items-center justify-center text-earth-300 text-3xl">
+                            <i class="fa-solid fa-filter text-earth-300 text-3xl"></i>
+                        </div>
+                        <h3 class="heading-papyrus text-3xl font-bold text-earth-100">V60 Cónico</h3>
+                        <p class="text-lg text-earth-200 italic leading-relaxed">
+                            Filtrado en papel cónico con espirales internas. Destaca por una taza muy limpia, resaltando la acidez brillante y las notas frutales o florales del grano.
+                        </p>
+                    </div>
+                    <div class="mt-6 pt-4 border-t border-earth-600/50 flex justify-between items-center text-earth-300 text-lg italic">
+                        <span>Perfil: Limpio, Citrico</span>
+                        <span>3 min</span>
+                    </div>
+                </div>
+
+                <!-- Method 3: Aeropress -->
+                <div class="card-rustic rounded-2xl p-8 flex flex-col justify-between">
+                    <div class="space-y-4">
+                        <div class="w-16 h-16 rounded-xl bg-earth-600/50 flex items-center justify-center text-earth-300 text-3xl">
+                            <i class="fa-solid fa-vial text-earth-300 text-3xl"></i>
+                        </div>
+                        <h3 class="heading-papyrus text-3xl font-bold text-earth-100">Aeropress</h3>
+                        <p class="text-lg text-earth-200 italic leading-relaxed">
+                            Combinación de presión de aire e inmersión rápida. Produce una bebida suave de baja acidez y gran dulzura, perfecta para apreciar cafés de altura.
+                        </p>
+                    </div>
+                    <div class="mt-6 pt-4 border-t border-earth-600/50 flex justify-between items-center text-earth-300 text-lg italic">
+                        <span>Perfil: Suave, Dulce</span>
+                        <span>2 min</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="menu" class="py-20 px-4 bg-earth-800/90 border-t border-earth-600/40">
+            <div class="max-w-5xl mx-auto space-y-12">
+                <div class="text-center space-y-4">
+                    <span class="text-earth-400 text-xl italic uppercase">Carta de la Casa</span>
+                    <h2 class="heading-papyrus text-4xl md:text-6xl font-bold text-earth-100">Menú Ookimi</h2>
+                    <p class="text-2xl text-earth-200 italic">Precios fijos. Granos artesanales seleccionados a mano.</p>
+                </div>
+
+                <!-- Menu Categories Filter Tabs -->
+                <div class="flex justify-center flex-wrap gap-3">
+                    <button onclick="filterMenu('todos')" class="menu-tab active-tab px-6 py-2 rounded-xl border border-earth-400 bg-earth-500 text-earth-50 text-xl italic font-semibold shadow transition-all">
+                        Todos
+                    </button>
+                    <button onclick="filterMenu('metodos')" class="menu-tab px-6 py-2 rounded-xl border border-earth-400 bg-earth-700 text-earth-200 hover:bg-earth-600 text-xl italic font-semibold shadow transition-all">
+                        Métodos de Filtrado
+                    </button>
+                    <button onclick="filterMenu('espressos')" class="menu-tab px-6 py-2 rounded-xl border border-earth-400 bg-earth-700 text-earth-200 hover:bg-earth-600 text-xl italic font-semibold shadow transition-all">
+                        Espresso & Leche
+                    </button>
+                    <button onclick="filterMenu('reposteria')" class="menu-tab px-6 py-2 rounded-xl border border-earth-400 bg-earth-700 text-earth-200 hover:bg-earth-600 text-xl italic font-semibold shadow transition-all">
+                        Repostería Artesanal
+                    </button>
+                </div>
+
+                <!-- Menu Items List -->
+                <div id="menu-container" class="grid md:grid-cols-2 gap-6 pt-6">
+
+                    <!-- Item 1 -->
+                    <div class="menu-item metodos p-6 rounded-xl card-rustic flex justify-between items-start gap-4">
+                        <div class="space-y-1">
+                            <h3 class="text-2xl font-bold text-earth-100 italic flex items-center gap-2">
+                                Prensa Francesa (Individual)
+                                <span class="text-xs bg-earth-500 text-earth-50 px-2 py-0.5 rounded-full font-sans not-italic">Popular</span>
+                            </h3>
+                            <p class="text-lg text-earth-300 italic">Extracción artesanal de grano entero. Notas a chocolate oscuro y nuez.</p>
+                        </div>
+                        <span class="text-2xl font-bold text-earth-200 bg-earth-700/80 px-3 py-1 rounded-lg border border-earth-500">$4.500</span>
+                    </div>
+
+                    <!-- Item 2 -->
+                    <div class="menu-item metodos p-6 rounded-xl card-rustic flex justify-between items-start gap-4">
+                        <div class="space-y-1">
+                            <h3 class="text-2xl font-bold text-earth-100 italic">Prensa Francesa (Para Compartir)</h3>
+                            <p class="text-lg text-earth-300 italic">Servidor de 600ml ideal para 2-3 personas.</p>
+                        </div>
+                        <span class="text-2xl font-bold text-earth-200 bg-earth-700/80 px-3 py-1 rounded-lg border border-earth-500">$8.200</span>
+                    </div>
+
+                    <!-- Item 3 -->
+                    <div class="menu-item metodos p-6 rounded-xl card-rustic flex justify-between items-start gap-4">
+                        <div class="space-y-1">
+                            <h3 class="text-2xl font-bold text-earth-100 italic">V60 Filtrado Artesanal</h3>
+                            <p class="text-lg text-earth-300 italic">Taza limpia, acidez equilibrada y perfil frutal de alta montaña.</p>
+                        </div>
+                        <span class="text-2xl font-bold text-earth-200 bg-earth-700/80 px-3 py-1 rounded-lg border border-earth-500">$4.800</span>
+                    </div>
+
+                    <!-- Item 4 -->
+                    <div class="menu-item espressos p-6 rounded-xl card-rustic flex justify-between items-start gap-4">
+                        <div class="space-y-1">
+                            <h3 class="text-2xl font-bold text-earth-100 italic">Espresso Doble Ookimi</h3>
+                            <p class="text-lg text-earth-300 italic">Concentrado, cremoso e intenso, de tueste medio rústico.</p>
+                        </div>
+                        <span class="text-2xl font-bold text-earth-200 bg-earth-700/80 px-3 py-1 rounded-lg border border-earth-500">$3.200</span>
+                    </div>
+
+                    <!-- Item 5 -->
+                    <div class="menu-item espressos p-6 rounded-xl card-rustic flex justify-between items-start gap-4">
+                        <div class="space-y-1">
+                            <h3 class="text-2xl font-bold text-earth-100 italic">Cappuccino de la Casa</h3>
+                            <p class="text-lg text-earth-300 italic">Espresso doble con leche texturizada artesanalmente y canela en polvo.</p>
+                        </div>
+                        <span class="text-2xl font-bold text-earth-200 bg-earth-700/80 px-3 py-1 rounded-lg border border-earth-500">$4.200</span>
+                    </div>
+
+                    <!-- Item 6 -->
+                    <div class="menu-item espressos p-6 rounded-xl card-rustic flex justify-between items-start gap-4">
+                        <div class="space-y-1">
+                            <h3 class="text-2xl font-bold text-earth-100 italic">Latte Aromatizado</h3>
+                            <p class="text-lg text-earth-300 italic">Leche cremosa con espresso y toque de vainilla natural o caramelo rústico.</p>
+                        </div>
+                        <span class="text-2xl font-bold text-earth-200 bg-earth-700/80 px-3 py-1 rounded-lg border border-earth-500">$4.600</span>
+                    </div>
+
+                    <!-- Item 7 -->
+                    <div class="menu-item reposteria p-6 rounded-xl card-rustic flex justify-between items-start gap-4">
+                        <div class="space-y-1">
+                            <h3 class="text-2xl font-bold text-earth-100 italic">Pan de Masa Madre & Mantequilla</h3>
+                            <p class="text-lg text-earth-300 italic">Tostado al horno de leña, servido con mermelada artesanal de frutos rojos.</p>
+                        </div>
+                        <span class="text-2xl font-bold text-earth-200 bg-earth-700/80 px-3 py-1 rounded-lg border border-earth-500">$3.800</span>
+                    </div>
+
+                    <!-- Item 8 -->
+                    <div class="menu-item reposteria p-6 rounded-xl card-rustic flex justify-between items-start gap-4">
+                        <div class="space-y-1">
+                            <h3 class="text-2xl font-bold text-earth-100 italic">Tarta de Manzana y Canela</h3>
+                            <p class="text-lg text-earth-300 italic">Horneada diariamente en nuestro local. El maridaje perfecto con Prensa Francesa.</p>
+                        </div>
+                        <span class="text-2xl font-bold text-earth-200 bg-earth-700/80 px-3 py-1 rounded-lg border border-earth-500">$4.000</span>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <section id="reservas" class="py-20 px-4 max-w-4xl mx-auto">
+            <div class="bg-earth-800 rounded-3xl p-8 md:p-12 rustic-border space-y-8 relative overflow-hidden">
+                <div class="text-center space-y-3">
+                    <i class="fa-solid fa-chair text-earth-400 text-4xl"></i>
+                    <h2 class="heading-papyrus text-4xl md:text-5xl font-bold text-earth-100">Reserva Tu Mesa en Ookimi</h2>
+                    <p class="text-xl text-earth-200 italic">
+                        Asegura tu rincón rústico para disfrutar con calma de nuestro café de especialidad.
+                    </p>
+                </div>
+
+                <form id="reservation-form" class="space-y-6">
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <!-- Name -->
+                        <div class="space-y-2">
+                            <label for="res-name" class="block text-xl font-bold text-earth-200 italic">Nombre Completo *</label>
+                            <input type="text" id="res-name" required placeholder="Ej. Camila Morales" class="w-full px-4 py-3 rounded-xl bg-earth-700 border border-earth-500 text-earth-100 placeholder-earth-400 focus:outline-none focus:border-earth-300 text-lg italic">
+                        </div>
+
+                        <!-- Phone / WhatsApp -->
+                        <div class="space-y-2">
+                            <label for="res-phone" class="block text-xl font-bold text-earth-200 italic">Teléfono / WhatsApp *</label>
+                            <input type="tel" id="res-phone" required placeholder="+56 9 1234 5678" class="w-full px-4 py-3 rounded-xl bg-earth-700 border border-earth-500 text-earth-100 placeholder-earth-400 focus:outline-none focus:border-earth-300 text-lg italic">
+                        </div>
+
+                        <!-- Date -->
+                        <div class="space-y-2">
+                            <label for="res-date" class="block text-xl font-bold text-earth-200 italic">Fecha de Visita *</label>
+                            <input type="date" id="res-date" required class="w-full px-4 py-3 rounded-xl bg-earth-700 border border-earth-500 text-earth-100 focus:outline-none focus:border-earth-300 text-lg italic">
+                        </div>
+
+                        <!-- Time -->
+                        <div class="space-y-2">
+                            <label for="res-time" class="block text-xl font-bold text-earth-200 italic">Hora Preferida *</label>
+                            <select id="res-time" required class="w-full px-4 py-3 rounded-xl bg-earth-700 border border-earth-500 text-earth-100 focus:outline-none focus:border-earth-300 text-lg italic">
+                                <option value="">Seleccionar Hora</option>
+                                <option value="08:30 AM">08:30 AM</option>
+                                <option value="10:00 AM">10:00 AM</option>
+                                <option value="12:00 PM">12:00 PM</option>
+                                <option value="03:00 PM">03:00 PM</option>
+                                <option value="05:00 PM">05:00 PM</option>
+                                <option value="07:00 PM">07:00 PM</option>
+                            </select>
+                        </div>
+
+                        <!-- Guests -->
+                        <div class="space-y-2">
+                            <label for="res-guests" class="block text-xl font-bold text-earth-200 italic">Número de Personas *</label>
+                            <select id="res-guests" required class="w-full px-4 py-3 rounded-xl bg-earth-700 border border-earth-500 text-earth-100 focus:outline-none focus:border-earth-300 text-lg italic">
+                                <option value="1 Persona">1 Persona</option>
+                                <option value="2 Personas" selected>2 Personas</option>
+                                <option value="3-4 Personas">3-4 Personas</option>
+                                <option value="5+ Personas">5+ Personas (Mesa Grande)</option>
+                            </select>
+                        </div>
+
+                        <!-- Method Preference -->
+                        <div class="space-y-2">
+                            <label for="res-method" class="block text-xl font-bold text-earth-200 italic">¿Qué método te gustaría probar?</label>
+                            <select id="res-method" class="w-full px-4 py-3 rounded-xl bg-earth-700 border border-earth-500 text-earth-100 focus:outline-none focus:border-earth-300 text-lg italic">
+                                <option value="Prensa Francesa (Recomendado)">Prensa Francesa (Recomendado)</option>
+                                <option value="V60 Filtrado">V60 Filtrado</option>
+                                <option value="Aeropress">Aeropress</option>
+                                <option value="Espresso o Cappuccino">Espresso o Cappuccino</option>
+                                <option value="Por definir en el local">Elegir en el local</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Notes -->
+                    <div class="space-y-2">
+                        <label for="res-notes" class="block text-xl font-bold text-earth-200 italic">Comentarios o Peticiones Especiales</label>
+                        <textarea id="res-notes" rows="3" placeholder="Ej. Celebración de aniversario, mesa cerca a la ventana..." class="w-full px-4 py-3 rounded-xl bg-earth-700 border border-earth-500 text-earth-100 placeholder-earth-400 focus:outline-none focus:border-earth-300 text-lg italic"></textarea>
+                    </div>
+
+                    <button type="submit" class="w-full py-4 rounded-xl bg-earth-500 hover:bg-earth-600 text-earth-50 text-2xl font-bold italic shadow-xl transition-all border border-earth-400 flex items-center justify-center gap-3">
+                        <i class="fa-solid fa-paper-plane"></i> Confirmar Reserva
+                    </button>
+                </form>
+            </div>
+        </section>
+
+        <section id="contacto" class="py-20 px-4 bg-earth-800/80 border-t border-earth-600/40">
+            <div class="max-w-6xl mx-auto grid md:grid-cols-2 gap-12 items-center">
+                <div class="space-y-6">
+                    <span class="text-earth-400 text-xl italic uppercase">Visítanos</span>
+                    <h2 class="heading-papyrus text-4xl md:text-5xl font-bold text-earth-100">Ubicación & Horarios</h2>
+                    <p class="text-xl text-earth-200 italic">
+                        Ven a disfrutar de nuestro espacio rústico. Te esperamos con el aroma a café recién molido.
+                    </p>
+
+                    <div class="space-y-4 pt-4">
+                        <div class="flex items-start gap-4">
+                            <div class="w-12 h-12 rounded-xl bg-earth-700 border border-earth-500 flex items-center justify-center text-earth-300 text-xl shrink-0">
+                                <i class="fa-solid fa-location-dot"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-2xl font-bold text-earth-100 italic">Dirección</h4>
+                                <p class="text-xl text-earth-300 italic">Av. Artesanal #450, Barrio Histórico</p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start gap-4">
+                            <div class="w-12 h-12 rounded-xl bg-earth-700 border border-earth-500 flex items-center justify-center text-earth-300 text-xl shrink-0">
+                                <i class="fa-solid fa-clock"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-2xl font-bold text-earth-100 italic">Horario de Atención</h4>
+                                <p class="text-xl text-earth-300 italic">Lunes a Sábado: 08:00 AM - 08:00 PM</p>
+                                <p class="text-xl text-earth-300 italic">Domingos: 09:00 AM - 06:00 PM</p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start gap-4">
+                            <div class="w-12 h-12 rounded-xl bg-earth-700 border border-earth-500 flex items-center justify-center text-earth-300 text-xl shrink-0">
+                                <i class="fa-brands fa-whatsapp"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-2xl font-bold text-earth-100 italic">Contacto Directo</h4>
+                                <p class="text-xl text-earth-300 italic">+56 9 8765 4321 (Consultas & Pedidos)</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="pt-4">
+                        <a href="https://wa.me/56987654321" target="_blank" rel="noopener" class="inline-flex items-center gap-3 px-6 py-3 rounded-xl bg-emerald-700 hover:bg-emerald-800 text-white text-xl font-bold italic shadow-md transition-all">
+                            <i class="fa-brands fa-whatsapp text-2xl"></i> Escribir por WhatsApp
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Stylized Rustic Map Container -->
+                <div class="bg-earth-700 rustic-border p-6 rounded-3xl space-y-4 text-center">
+                    <div class="h-72 rounded-2xl bg-earth-800 border border-earth-500 flex flex-col items-center justify-center p-6 space-y-3 relative overflow-hidden">
+                        <i class="fa-solid fa-map-location-dot text-6xl text-earth-400"></i>
+                        <span class="heading-papyrus text-2xl text-earth-200">Café Ookimi</span>
+                        <p class="text-lg text-earth-300 italic">Av. Artesanal #450, Centro de la Ciudad</p>
+                        <span class="inline-block bg-earth-500/30 text-earth-200 text-sm px-3 py-1 rounded-full border border-earth-400">Ambiente Rústico & Pet Friendly</span>
+                    </div>
+                    <p class="text-lg text-earth-200 italic">Contamos con terraza techada y estacionamiento de bicicletas.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-earth-800 border-t border-earth-600/50 py-10 px-4 text-center">
+        <div class="max-w-4xl mx-auto space-y-4">
+            <div class="flex justify-center items-center gap-2">
+                <i class="fa-solid fa-mug-hot text-earth-400 text-2xl"></i>
+                <span class="heading-papyrus text-3xl font-bold text-earth-200">Ookimi</span>
+            </div>
+            <p class="text-xl text-earth-300 italic">
+                Café artesanal, fresco y especializado en métodos tradicionales.
+            </p>
+            <div class="flex justify-center gap-6 text-earth-300 text-2xl pt-2">
+                <a href="#" class="hover:text-earth-100 transition-colors" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+                <a href="#" class="hover:text-earth-100 transition-colors" aria-label="Facebook"><i class="fa-brands fa-facebook"></i></a>
+                <a href="#" class="hover:text-earth-100 transition-colors" aria-label="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
+            </div>
+            <div class="text-earth-400 text-sm pt-6 border-t border-earth-700 italic">
+                &copy; <span id="current-year"></span> Café Ookimi. Todos los derechos reservados.
+            </div>
+        </div>
+    </footer>
+
+    <div id="reservation-modal" class="fixed inset-0 bg-black/75 z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-earth-800 border-2 border-earth-400 rounded-2xl p-8 max-w-md w-full space-y-6 text-center rustic-border">
+            <div class="w-16 h-16 rounded-full bg-earth-500 text-earth-50 mx-auto flex items-center justify-center text-3xl">
+                <i class="fa-solid fa-check"></i>
+            </div>
+            <h3 class="heading-papyrus text-3xl font-bold text-earth-100">¡Reserva Registrada!</h3>
+            <div id="modal-details" class="text-xl text-earth-200 italic space-y-2 bg-earth-700/60 p-4 rounded-xl border border-earth-600">
+                <!-- Filled via JS -->
+            </div>
+            <p class="text-lg text-earth-300 italic">
+                Te esperamos en Café Ookimi con la Prensa Francesa lista.
+            </p>
+            <button onclick="closeModal()" class="w-full py-3 rounded-xl bg-earth-500 hover:bg-earth-600 text-earth-50 text-xl font-bold italic shadow border border-earth-400">
+                Entendido
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // Set dynamic current year
+        document.getElementById('current-year').textContent = new Date().getFullYear();
+
+        // Mobile menu toggle logic
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const mobileLinks = document.querySelectorAll('.mobile-link');
+
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        mobileLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.add('hidden');
+            });
+        });
+
+        // Menu Filtering functionality
+        function filterMenu(category) {
+            const items = document.querySelectorAll('.menu-item');
+            const tabs = document.querySelectorAll('.menu-tab');
+
+            // Toggle active tab style
+            tabs.forEach(tab => {
+                tab.classList.remove('bg-earth-500', 'text-earth-50');
+                tab.classList.add('bg-earth-700', 'text-earth-200');
+            });
+
+            event.target.classList.remove('bg-earth-700', 'text-earth-200');
+            event.target.classList.add('bg-earth-500', 'text-earth-50');
+
+            // Show/hide menu items
+            items.forEach(item => {
+                if (category === 'todos' || item.classList.contains(category)) {
+                    item.style.display = 'flex';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        }
+
+        // Reservation Form handling
+        const reservationForm = document.getElementById('reservation-form');
+        const modal = document.getElementById('reservation-modal');
+        const modalDetails = document.getElementById('modal-details');
+
+        reservationForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const name = document.getElementById('res-name').value;
+            const date = document.getElementById('res-date').value;
+            const time = document.getElementById('res-time').value;
+            const guests = document.getElementById('res-guests').value;
+            const method = document.getElementById('res-method').value;
+
+            modalDetails.innerHTML = `
+                <p><strong>Cliente:</strong> ${name}</p>
+                <p><strong>Fecha & Hora:</strong> ${date} a las ${time}</p>
+                <p><strong>Personas:</strong> ${guests}</p>
+                <p><strong>Método Elegido:</strong> ${method}</p>
+            `;
+
+            modal.classList.remove('hidden');
+            reservationForm.reset();
+        });
+
+        function closeModal() {
+            modal.classList.add('hidden');
+        }
+
+        // Minimum date setting for reservation input (cannot book in the past)
+        const dateInput = document.getElementById('res-date');
+        if (dateInput) {
+            const today = new Date().toISOString().split('T')[0];
+            dateInput.setAttribute('min', today);
+        }
+    </script>
+</body>
+</html>
